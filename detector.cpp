@@ -72,7 +72,6 @@ detector::detector(string type, bool initial_status) : detector_type{type},
   validate_type();
 }
 
-// Setters
 void detector::set_detection_count(const size_t& new_count)
 {
   validate_count(new_count);

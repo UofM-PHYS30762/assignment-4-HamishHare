@@ -32,7 +32,7 @@ void print_all_particle_info(std::vector<particle>& particles)
   int i{1};
   for(auto particle{particles.begin()}; particle<particles.end(); ++particle)
   {
-    std::cout<<"Particle "<<i<<" ("<<particle->get_name()<<"):"<<std::endl
+    std::cout<<"Particle "<<i<<" ("<<(*particle).get_name()<<"):"<<std::endl
              <<"-----------------------------"<<std::endl;
     (*particle).print_data();
     std::cout<<"-----------------------------"<<std::endl;
@@ -51,7 +51,7 @@ void run_particles_through_detectors(std::vector<detector>& detectors,
   for(auto detector{detectors.begin()}; detector<detectors.end(); ++detector)
   {
     // .. print which detector is currently in use
-    std::cout<<"For the "<<detector->get_detector_type()<<":"<<std::endl;
+    std::cout<<"For the "<<(*detector).get_detector_type()<<":"<<std::endl;
     std::cout<<"-----------------------------"<<std::endl;
     // .. pass the particles through it
     pass_particles_through_detector((*detector), particles);
@@ -70,7 +70,7 @@ void print_detector_results(std::vector<detector>& detectors)
   // .. loop over each detector
   for(auto detector{detectors.begin()}; detector<detectors.end(); ++detector)
   {
-    std::cout<<"For the "<<detector->get_detector_type()<<":"<<std::endl
+    std::cout<<"For the "<<(*detector).get_detector_type()<<":"<<std::endl
              <<"-----------------------------"<<std::endl;
     (*detector).print_data();
     std::cout<<"-----------------------------"<<std::endl;
