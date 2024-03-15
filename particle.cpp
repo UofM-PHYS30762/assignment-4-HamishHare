@@ -27,7 +27,7 @@ void particle::validate_type()
   // ensure its an acceptable input
   if(!(particle_type=="electron" || particle_type=="muon"))
   {
-    std::cout<<"Provided type '"<<particle_type<<"' is not 'electron' or 'muon'";
+    std::cout<<"Provided type '"<<particle_type<<"' is not 'electron' or 'muon'.";
     throw std::invalid_argument("Invalid particle type.");
   }
 }
@@ -37,7 +37,7 @@ void particle::validate_mass()
 {
   if(rest_mass<=0)
   {
-    std::cout<<"Particle masses must be positive. You entered "<<rest_mass;
+    std::cout<<"Particle masses must be positive. You entered "<<rest_mass<<".";
     throw std::invalid_argument("Invalid particle mass.");
   }
 }
@@ -47,7 +47,7 @@ void particle::validate_charge()
 {
   if(std::abs(charge)!=1)
   {
-    std::cout<<"Particle charges must be 1 or -1. You entered "<<charge;
+    std::cout<<"Particle charges must be 1 or -1. You entered "<<charge<<".";
     throw std::invalid_argument("Invalid particle charge.");
   }
 }
@@ -58,7 +58,7 @@ void particle::validate_energy()
   double energy = (*four_momentum_p)[0];
   if(energy<0)
   {
-    std::cout<<"Particle energies cannot be negative. You entered "<<energy;
+    std::cout<<"Particle energies cannot be negative. You entered "<<energy<<".";
     throw std::invalid_argument("Invalid particle energy.");
   }
 }
@@ -122,4 +122,49 @@ void particle::print_data() const
                           <<(*four_momentum_p)[1]<<", "
                           <<(*four_momentum_p)[2]<<", "
                           <<(*four_momentum_p)[3]<<") MeV/c"<<std::endl;
+}
+
+// Addition operator overload
+// .. returns a vector with the summed four momenta of this particle
+// .. with that of a given other particle
+// .. does not overwrite any values
+// std::vector<double> particle::operator+(const particle &other_particle) const
+// {
+//   std::vector<double> sum
+//   {
+//     (*four_momentum_p)[0]+other_particle.get_energy(),
+//     (*four_momentum_p)[1]+other_particle.get_px(),
+//     (*four_momentum_p)[2]+other_particle.get_py(),
+//     (*four_momentum_p)[3]+other_particle.get_pz()
+//   };
+//   return sum;
+// }
+// .. returns a new particle with the summed four momenta of this
+// .. particle with that of a given other particle
+particle particle::operator+(const particle &other_particle) const
+{
+  particle summed_particle
+  {
+    particle_type, rest_mass, charge,
+    (*four_momentum_p)[0]+other_particle.get_energy(),
+    (*four_momentum_p)[1]+other_particle.get_px(),
+    (*four_momentum_p)[2]+other_particle.get_py(),
+    (*four_momentum_p)[3]+other_particle.get_pz()
+  };
+  return summed_particle;
+}
+
+// Dot product
+// .. returns a double with the dot_product of this particle's four
+// .. momenta with that of a given other particle (doesn't set anything)
+double particle::dot_product(const particle &other_particle) const
+{
+  double product
+  {
+    (*four_momentum_p)[0]*other_particle.get_energy() +
+    (*four_momentum_p)[1]*other_particle.get_px() +
+    (*four_momentum_p)[2]*other_particle.get_py() +
+    (*four_momentum_p)[3]*other_particle.get_pz()
+  };
+  return product;
 }

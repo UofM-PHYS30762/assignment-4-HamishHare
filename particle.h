@@ -24,7 +24,7 @@ private:
   void validate_mass(); // .. rest mass
   void validate_charge(); // .. charge
   void validate_energy(); // .. 4-momentum energy
-  void validate_all(); // .. validate everything
+  void validate_all(); // .. all the above
 
 public:
   // Constructors
@@ -59,6 +59,16 @@ public:
 
   // Function to print info about a particle
   void print_data() const;
+
+  // Addition operator overload
+// .. returns a new particle with the summed four momenta of this
+// .. particle with that of a given other particle
+  particle operator+(const particle &other_particle) const;
+
+  // Dot product
+  // .. returns a double with the dot_product of this particle's four
+  // .. momenta with that of a given other particle (doesn't set anything)
+  double dot_product(const particle &other_particle) const;
 };
 
 #endif // PARTICLE_H

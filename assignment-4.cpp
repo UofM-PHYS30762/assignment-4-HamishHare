@@ -82,22 +82,34 @@ int main()
 
   // Create a vector of particles:
   // two electrons, four muons, one antielectron, one antimuon
-  std::vector<particle> particles;
+  // std::vector<particle> particles;
 
-  particles.emplace_back("electron", electron_rest_mass, 1, 613.1, 1.34, 0, 0);
-  particles.emplace_back("electron", electron_rest_mass, 1, 34.1, 0, 4.56, 0);
-  particles.emplace_back("muon", muon_rest_mass, 1, 81.6, 0, 0, 5.63);
-  particles.emplace_back("muon", muon_rest_mass, 1, 984.2, 234.1, 0, 0);
-  particles.emplace_back("muon", muon_rest_mass, 1, 489.21, 0, 23.4, 0);
-  particles.emplace_back("muon", muon_rest_mass, 1, 92.7, 0, 0, 451.2);
-  particles.emplace_back("electron", electron_rest_mass, -1, 712.1, 827.3, 0, 0);
-  particles.emplace_back("muon", muon_rest_mass, -1, 121.1, 0, 9.120, 0);
+  // particles.emplace_back("electron", electron_rest_mass, 1, 613.1, 1.34, 0, 0);
+  // particles.emplace_back("electron", electron_rest_mass, 1, 34.1, 0, 4.56, 0);
+  // particles.emplace_back("muon", muon_rest_mass, 1, 81.6, 0, 0, 5.63);
+  // particles.emplace_back("muon", muon_rest_mass, 1, 984.2, 234.1, 0, 0);
+  // particles.emplace_back("muon", muon_rest_mass, 1, 489.21, 0, 23.4, 0);
+  // particles.emplace_back("muon", muon_rest_mass, 1, 92.7, 0, 0, 451.2);
+  // particles.emplace_back("electron", electron_rest_mass, -1, 712.1, 827.3, 0, 0);
+  // particles.emplace_back("muon", muon_rest_mass, -1, 121.1, 0, 9.120, 0);
 
   // Print out the data from all the particles
-  print_all_particle_info(particles);
+  // print_all_particle_info(particles);
 
-  // Sum the four-momenta of the two electrons 
+  // Sum the four-momenta of the two electrons
+  particle e1{"electron", electron_rest_mass, 1, 613.1, 1.34, 0, 6.1};
+  particle e2{"electron", electron_rest_mass, 1, 34.1, 0, 4.56, 0};
+  particle summed_particle{e1+e2};
+  std::cout<<"Sum of momenta for first two electrons: ("
+           <<summed_particle.get_energy()<<", "
+           <<summed_particle.get_px()<<", "
+           <<summed_particle.get_py()<<", "
+           <<summed_particle.get_pz()<<") MeV/c"<<std::endl;;
   // Do the dot product of the first two four-muons
+  particle m1{"muon", muon_rest_mass, 1, 1, 2, 3, 4};
+  particle m2{"muon", muon_rest_mass, 1, 2000, 200, 20, 2};
+  std::cout<<"Dot product of first two muons: "
+           <<m1.dot_product(m2)<<" (Mev/c)^2"<<std::endl;
   // Assignment operator of an electron to a new electron
   // Copy constructor of the first muon to a new muon
   // Move the antielectron into another antielectron using the move constructor 
