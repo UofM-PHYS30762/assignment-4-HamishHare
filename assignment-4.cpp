@@ -82,45 +82,77 @@ int main()
 
   // Create a vector of particles:
   // two electrons, four muons, one antielectron, one antimuon
-  // std::vector<particle> particles;
+  std::vector<particle> particles;
 
-  // particles.emplace_back("electron", electron_rest_mass, 1, 613.1, 1.34, 0, 0);
-  // particles.emplace_back("electron", electron_rest_mass, 1, 34.1, 0, 4.56, 0);
-  // particles.emplace_back("muon", muon_rest_mass, 1, 81.6, 0, 0, 5.63);
-  // particles.emplace_back("muon", muon_rest_mass, 1, 984.2, 234.1, 0, 0);
+  particles.emplace_back("electron", electron_rest_mass, 1, 613.1, 1.34, 0, 0);
+  particles.emplace_back("electron", electron_rest_mass, 1, 34.1, 0, 4.56, 0);
+  particles.emplace_back("muon", muon_rest_mass, 1, 81.6, 0, 0, 5.63);
+  particles.emplace_back("muon", muon_rest_mass, 1, 984.2, 234.1, 0, 0);
   // particles.emplace_back("muon", muon_rest_mass, 1, 489.21, 0, 23.4, 0);
   // particles.emplace_back("muon", muon_rest_mass, 1, 92.7, 0, 0, 451.2);
   // particles.emplace_back("electron", electron_rest_mass, -1, 712.1, 827.3, 0, 0);
   // particles.emplace_back("muon", muon_rest_mass, -1, 121.1, 0, 9.120, 0);
 
   // Print out the data from all the particles
-  // print_all_particle_info(particles);
+  print_all_particle_info(particles);
 
   // Sum the four-momenta of the two electrons
-  particle e1{"electron", electron_rest_mass, 1, 613.1, 1.34, 0, 6.1};
-  particle e2{"electron", electron_rest_mass, 1, 34.1, 0, 4.56, 0};
-  // particle summed_particle{e1+e2};
-  // std::cout<<"Sum of momenta for first two electrons: ";
-  // summed_particle.print_four_momentum();
-  // Do the dot product of the first two four-muons
-  // particle m1{"muon", muon_rest_mass, 1, 1, 2, 3, 4};
-  // particle m2{"muon", muon_rest_mass, 1, 2000, 200, 20, 2};
-  // std::cout<<"Dot product of first two muons: "
-  //          <<m1.dot_product(m2)<<" (Mev/c)^2"<<std::endl;
-  // Assignment operator of an electron to a new electron
-  std::cout<<std::endl<<"e3:"<<std::endl;
-  particle e3 = e1;
-  e3.print_data();
-  e1.set_type("muon");
-  e3.print_data();
+  // .. intro
+  std::cout<<"========================"<<std::endl
+           <<"Overloading 'operator+':"<<std::endl
+           <<"========================"<<std::endl;
+  std::cout<<"Electon 1 momentum: ";
+  particles[0].print_four_momentum();
+  std::cout<<"Electon 2 momentum: ";
+  particles[1].print_four_momentum();
+  // .. result
+  particle summed_particle{particles[0]+particles[1]};
+  std::cout<<"Sum of momenta for first two electrons: ";
+  summed_particle.print_four_momentum();
+  std::cout<<"========================"<<std::endl;
 
-  std::cout<<std::endl<<"e4:"<<std::endl;
-  particle e4;
-  e4 = e2;
-  e4.print_data();
-  e2.set_charge(-1);
-  e4.print_data();
+  // Do the dot product of the first two four-muons
+  // .. intro
+  std::cout<<"========================"<<std::endl
+           <<"Performing dot product:"<<std::endl
+           <<"========================"<<std::endl;
+  std::cout<<"Muon 1 momentum: ";
+  particles[2].print_four_momentum();
+  std::cout<<"Muon 2 momentum: ";
+  particles[3].print_four_momentum();
+  // .. result
+  std::cout<<"Dot product of first two muons: "
+           <<particles[2].dot_product(particles[3])
+           <<" (Mev/c)^2"<<std::endl;
+  std::cout<<"========================"<<std::endl;
+
+  // Assignment operator of an electron to a new electron
+  // .. intro
+  std::cout<<"========================"<<std::endl
+           <<"Overloading 'operator=':"<<std::endl
+           <<"========================"<<std::endl;
+  std::cout<<"Electron to be copied:"<<std::endl;
+  particles[1].print_data();
+  // .. result
+  particle assigned_electron;
+  assigned_electron = particles[1];
+  std::cout<<"Assigned electron info:"<<std::endl;
+  assigned_electron.print_data();
+  std::cout<<"========================"<<std::endl;
+
   // Copy constructor of the first muon to a new muon
+  // .. intro
+  std::cout<<"========================"<<std::endl
+           <<"Using copy constructor:"<<std::endl
+           <<"========================"<<std::endl;
+  std::cout<<"Muon to be copied:"<<std::endl;
+  particles[2].print_data();
+  // .. result
+  particle copy_constructed_muon{particles[2]};
+  std::cout<<"Constructed muon info:"<<std::endl;
+  copy_constructed_muon.print_data();
+  std::cout<<"========================"<<std::endl;
+
   // Move the antielectron into another antielectron using the move constructor 
   // Assign the antimuon to another antimuon using the move assignment
 
