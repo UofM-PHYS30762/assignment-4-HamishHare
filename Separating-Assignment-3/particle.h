@@ -6,7 +6,6 @@
 #define PARTICLE_H
 
 #include <string>
-#include <vector>
 using std::string;
 
 class particle {
@@ -16,13 +15,14 @@ private:
   string particle_type{"electron"};
   double rest_mass{0.51099895}; // in Mev
   int charge{1}; // multiples of -e
-  std::vector<double> *four_momentum_p = new std::vector<double>{0.0, 0.0, 0.0, 0.0};
+  double velocity{0};
+  double beta{velocity/speed_of_light};
 
   // Validation functions
   void validate_type(); // .. particle type
   void validate_mass(); // .. rest mass
   void validate_charge(); // .. charge
-  void validate_energy(); // .. 4-momentum energy
+  void validate_velocity(); // .. velocity
 
 public:
   // Constructors
@@ -30,28 +30,23 @@ public:
   particle() = default;
   // .. Parameterised constructor
   particle(const string& type, const double& mass, const int& charge_quanta,
-           const double& energy, const double& px, const double& py, const double& pz);
+           const double& particle_velocity);
   // Destructor
-  ~particle(){delete four_momentum_p;}
+  ~particle(){}
 
   // Getter functions
   string get_type() const {return particle_type;}
   string get_name() const; // adapt the particle name if it's an anti-particle
   double get_rest_mass() const {return rest_mass;}
   int get_charge() const {return charge;}
-  double get_energy() const {return (*four_momentum_p)[0];}
-  double get_px() const {return (*four_momentum_p)[1];}
-  double get_py() const {return (*four_momentum_p)[2];}
-  double get_pz() const {return (*four_momentum_p)[3];}
+  double get_velocity() const {return velocity;}
+  double get_beta() const {return beta;}
 
   // Setter functions, to change value of data members
   void set_type(const string& type){particle_type = type; validate_type();}
   void set_rest_mass(const double& mass){rest_mass = mass; validate_mass();}
   void set_charge(const int& charge_quanta){charge = charge_quanta; validate_charge();}
-  void set_energy(const double& energy){(*four_momentum_p)[0]=energy; validate_energy();}
-  void set_px(const double& px){(*four_momentum_p)[1]=px;}
-  void set_py(const double& py){(*four_momentum_p)[2]=py;}
-  void set_pz(const double& pz){(*four_momentum_p)[3]=pz;}
+  void set_velocity(const double& particle_velocity); // set velocity and beta
 
   // Function to print info about a particle
   void print_data() const;

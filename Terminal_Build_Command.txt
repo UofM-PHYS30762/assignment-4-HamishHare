@@ -1,1 +1,1 @@
-g++ -std=c++17 -g .\assignment-4.cpp .\particle.cpp .\detector.cpp -o .\assignment-4
+g++ -std=c++17 -g .\assignment-4.cpp .\particle.cpp -o .\assignment-4

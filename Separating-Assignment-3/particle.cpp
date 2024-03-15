@@ -47,36 +47,31 @@ void particle::validate_charge()
     throw std::invalid_argument("Invalid particle charge.");
   }
 }
-// .. energy
-void particle::validate_energy()
+// .. velocity
+void particle::validate_velocity()
 {
-  double energy = (*four_momentum_p)[0];
-  if(energy<0)
+  if(std::abs(velocity)>speed_of_light)
   {
-    std::cout<<"Particle energies cannot be negative. You entered "<<energy;
-    throw std::invalid_argument("Invalid particle energy.");
+    std::cout<<"Particle velocity "<<velocity<<" m/s exceeds the speed of light";
+    throw std::invalid_argument("Invalid particle velocity.");
   }
 }
 
 // Parameterised constructor
 particle::particle(const string& type, const double& mass, const int& charge_quanta,
-                   const double& energy, const double& px, const double& py,
-                   const double& pz) :
-                   particle_type{type}, rest_mass{mass}, charge{charge_quanta}
+                   const double& particle_velocity) :
+                   particle_type{type}, rest_mass{mass}, charge{charge_quanta},
+                   velocity{particle_velocity}, beta{particle_velocity/speed_of_light}
 {
   // Validation
   // .. check that the particle type is either "electron" or "muon"
   validate_type();
+  // .. check that the particle speed doesn't exceed the speed of light
+  validate_velocity();
   // .. check that the mass is not negative
   validate_mass();
   // .. check that the charge is either 1 or -1
   validate_charge();
-  // .. check that the energy is not negative
-  validate_energy();
-
-  // Assign 4-momenta elements
-  delete four_momentum_p;  // Delete class definition vector
-  four_momentum_p = new std::vector<double>{energy, px, py, pz};
 }
 
 // Getter function for particle name (rest done in header)
@@ -87,6 +82,13 @@ string particle::get_name() const
   else return particle_type;
 }
 
+// Setter function for velocity (rest done in header)
+void particle::set_velocity(const double& particle_velocity) {
+  velocity = particle_velocity;
+  validate_velocity();
+  beta = velocity / speed_of_light;
+}
+
 // Function to print info about a particle
 void particle::print_data() const
 {
@@ -94,5 +96,6 @@ void particle::print_data() const
   <<" -- Type: "<<particle_type<<std::endl
   <<" -- Rest Mass: "<<rest_mass<<" MeV"<<std::endl
   <<" -- Charge: "<<-charge <<" e"<<std::endl
-  <<" -- Four momentum: ("<<four_momentum_p<<") MeV/c"<<std::endl;
+  <<" -- Velocity: "<<velocity<<" m/s"<<std::endl
+  <<" -- Beta: "<<beta<<std::endl;
 }
