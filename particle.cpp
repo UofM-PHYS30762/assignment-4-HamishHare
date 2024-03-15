@@ -97,7 +97,20 @@ particle::particle(const particle& particle_to_copy)
   validate_all();
 }
 
-// Assignment operator
+// Move constructor
+particle::particle(particle&& particle_to_move)
+{
+  std::cout<<"Calling move constructor"<<std::endl;
+  // Move the data members over
+  particle_type = std::move(particle_to_move.particle_type);
+  rest_mass = std::move(particle_to_move.rest_mass);
+  charge = std::move(particle_to_move.charge);
+  four_momentum_p = std::move(particle_to_move.four_momentum_p);
+  // Set the pointer in the original particle to nullptr
+  particle_to_move.four_momentum_p = nullptr;
+}
+
+// Copy assignment operator
 particle& particle::operator=(const particle& particle_to_copy)
 {
   std::cout<<"Calling copy assignment operator"<<std::endl;
@@ -111,6 +124,26 @@ particle& particle::operator=(const particle& particle_to_copy)
   four_momentum_p = new std::vector<double>{*(particle_to_copy.four_momentum_p)};
   validate_all();
 
+  return *this;
+}
+
+// Move assignment operator
+particle& particle::operator=(particle&& particle_to_move)
+{
+  std::cout<<"Calling move assignment operator"<<std::endl;
+  if(&particle_to_move == this) return *this; // no self-assignment
+
+  // Move the data members from the other particle
+  particle_type = std::move(particle_to_move.particle_type);
+  rest_mass = std::move(particle_to_move.rest_mass);
+  charge = std::move(particle_to_move.charge);
+  // Delete previous four_momentum vector of this particle
+  delete four_momentum_p;
+  // Move the four-momentum vector pointer to this one and
+  // set the pointer in the other particle to nullptr
+  four_momentum_p = particle_to_move.four_momentum_p;
+  particle_to_move.four_momentum_p = nullptr;
+  
   return *this;
 }
 

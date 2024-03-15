@@ -88,10 +88,10 @@ int main()
   particles.emplace_back("electron", electron_rest_mass, 1, 34.1, 0, 4.56, 0);
   particles.emplace_back("muon", muon_rest_mass, 1, 81.6, 0, 0, 5.63);
   particles.emplace_back("muon", muon_rest_mass, 1, 984.2, 234.1, 0, 0);
-  // particles.emplace_back("muon", muon_rest_mass, 1, 489.21, 0, 23.4, 0);
-  // particles.emplace_back("muon", muon_rest_mass, 1, 92.7, 0, 0, 451.2);
-  // particles.emplace_back("electron", electron_rest_mass, -1, 712.1, 827.3, 0, 0);
-  // particles.emplace_back("muon", muon_rest_mass, -1, 121.1, 0, 9.120, 0);
+  particles.emplace_back("muon", muon_rest_mass, 1, 489.21, 0, 23.4, 0);
+  particles.emplace_back("muon", muon_rest_mass, 1, 92.7, 0, 0, 451.2);
+  particles.emplace_back("electron", electron_rest_mass, -1, 712.1, 827.3, 0, 0);
+  particles.emplace_back("muon", muon_rest_mass, -1, 121.1, 0, 9.120, 0);
 
   // Print out the data from all the particles
   print_all_particle_info(particles);
@@ -129,7 +129,7 @@ int main()
   // Assignment operator of an electron to a new electron
   // .. intro
   std::cout<<"========================"<<std::endl
-           <<"Overloading 'operator=':"<<std::endl
+           <<"Copy assignment (=):"<<std::endl
            <<"========================"<<std::endl;
   std::cout<<"Electron to be copied:"<<std::endl;
   particles[1].print_data();
@@ -153,8 +153,32 @@ int main()
   copy_constructed_muon.print_data();
   std::cout<<"========================"<<std::endl;
 
-  // Move the antielectron into another antielectron using the move constructor 
+  // Move the antielectron into another antielectron using the move constructor
+  // .. intro
+  std::cout<<"========================"<<std::endl
+           <<"Using move constructor:"<<std::endl
+           <<"========================"<<std::endl;
+  std::cout<<"Antielectron to be moved:"<<std::endl;
+  particles[6].print_data();
+  // .. result
+  particle move_constucted_antielectron{std::move(particles[6])};
+  std::cout<<"New antielectron info:"<<std::endl;
+  move_constucted_antielectron.print_data();
+  std::cout<<"========================"<<std::endl;
+
   // Assign the antimuon to another antimuon using the move assignment
+  // .. intro
+  std::cout<<"========================"<<std::endl
+           <<"Move assignment (=):"<<std::endl
+           <<"========================"<<std::endl;
+  std::cout<<"Antimuon to be moved:"<<std::endl;
+  particles[7].print_data();
+  // .. result
+  particle assigned_antimuon;
+  assigned_antimuon = std::move(particles[7]);
+  std::cout<<"Assigned antimuon info:"<<std::endl;
+  assigned_antimuon.print_data();
+  std::cout<<"========================"<<std::endl;
 
   // (optional but nice) Here or at the end of each step, print the new particle info
   // to convince yourself that you have used all special functions and operations correctly
