@@ -1,4 +1,5 @@
 // PHYS 30762 Programming in C++
+// Assignment 4
 // Implementing the header file for the 'particle' class
 // Hamish Hare
 
@@ -23,6 +24,7 @@ private:
   void validate_mass(); // .. rest mass
   void validate_charge(); // .. charge
   void validate_energy(); // .. 4-momentum energy
+  void validate_all(); // .. validate everything
 
 public:
   // Constructors
@@ -31,8 +33,10 @@ public:
   // .. Parameterised constructor
   particle(const string& type, const double& mass, const int& charge_quanta,
            const double& energy, const double& px, const double& py, const double& pz);
+  // Copy constructor
+  particle(const particle& particle_to_copy);
   // Destructor
-  ~particle(){delete four_momentum_p;}
+  ~particle();
 
   // Getter functions
   string get_type() const {return particle_type;}

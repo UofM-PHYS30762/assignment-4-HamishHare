@@ -1,4 +1,5 @@
 // PHYS 30762 Programming in C++
+// Assignment 4
 // Implementing the cpp file for the 'particle' class
 // Hamish Hare
 
@@ -18,6 +19,7 @@ static void to_lowercase(string& input_string)
 
 // Validation functions
 // .. particle type
+// .. check that the particle type is either "electron" or "muon"
 void particle::validate_type()
 {
   // make particle_type lowercase
@@ -25,11 +27,12 @@ void particle::validate_type()
   // ensure its an acceptable input
   if(!(particle_type=="electron" || particle_type=="muon"))
   {
-    std::cout<<"Provided type "<<particle_type<<" is not 'electron' or 'muon'";
+    std::cout<<"Provided type '"<<particle_type<<"' is not 'electron' or 'muon'";
     throw std::invalid_argument("Invalid particle type.");
   }
 }
 // .. rest mass
+// .. check that the mass is not negative
 void particle::validate_mass()
 {
   if(rest_mass<=0)
@@ -39,6 +42,7 @@ void particle::validate_mass()
   }
 }
 // .. charge
+// .. check that the charge is either 1 or -1
 void particle::validate_charge()
 {
   if(std::abs(charge)!=1)
@@ -48,6 +52,7 @@ void particle::validate_charge()
   }
 }
 // .. energy
+// .. check that the energy is not negative
 void particle::validate_energy()
 {
   double energy = (*four_momentum_p)[0];
@@ -57,6 +62,14 @@ void particle::validate_energy()
     throw std::invalid_argument("Invalid particle energy.");
   }
 }
+// .. everything
+void particle::validate_all()
+{
+  validate_type();
+  validate_mass();
+  validate_charge();
+  validate_energy();
+}
 
 // Parameterised constructor
 particle::particle(const string& type, const double& mass, const int& charge_quanta,
@@ -64,19 +77,30 @@ particle::particle(const string& type, const double& mass, const int& charge_qua
                    const double& pz) :
                    particle_type{type}, rest_mass{mass}, charge{charge_quanta}
 {
-  // Validation
-  // .. check that the particle type is either "electron" or "muon"
-  validate_type();
-  // .. check that the mass is not negative
-  validate_mass();
-  // .. check that the charge is either 1 or -1
-  validate_charge();
-  // .. check that the energy is not negative
-  validate_energy();
-
+  std::cout<<"Calling parameterised constructor"<<std::endl;
   // Assign 4-momenta elements
-  delete four_momentum_p;  // Delete class definition vector
+  delete four_momentum_p;  // delete vector from class definition
   four_momentum_p = new std::vector<double>{energy, px, py, pz};
+  validate_all();
+}
+
+// Copy constructor
+particle::particle(const particle& particle_to_copy)
+{
+  std::cout<<"Calling copy constructor"<<std::endl;
+  particle_type = particle_to_copy.particle_type;
+  rest_mass = particle_to_copy.rest_mass;
+  charge = particle_to_copy.charge;
+  delete four_momentum_p; // delete vector from class definition
+  four_momentum_p = new std::vector<double>{*(particle_to_copy.four_momentum_p)};
+  validate_all();
+}
+
+// Destructor
+particle::~particle()
+{
+  std::cout<<"Calling destructor"<<std::endl;
+  delete four_momentum_p;
 }
 
 // Getter function for particle name (rest done in header)
@@ -94,5 +118,8 @@ void particle::print_data() const
   <<" -- Type: "<<particle_type<<std::endl
   <<" -- Rest Mass: "<<rest_mass<<" MeV"<<std::endl
   <<" -- Charge: "<<-charge <<" e"<<std::endl
-  <<" -- Four momentum: ("<<four_momentum_p<<") MeV/c"<<std::endl;
+  <<" -- Four momentum: ("<<(*four_momentum_p)[0]<<", "
+                          <<(*four_momentum_p)[1]<<", "
+                          <<(*four_momentum_p)[2]<<", "
+                          <<(*four_momentum_p)[3]<<") MeV/c"<<std::endl;
 }

@@ -8,48 +8,66 @@
 #include<string>
 #include<vector>
 #include<cmath>
+#include "particle.h"
 
 using std::string;
 
-// Beginning of particle class
-class particle
+// Function to print out all the particle information
+void print_all_particle_info(std::vector<particle>& particles)
 {
-private:
-  string particle_name;
-  //...other data members (see slides on BB)
-  // We need the four-vector, you can leave the particle mass (or remove it, we don't mark it)
+  std::cout<<"============================="<<std::endl
+           <<"          PARTICLES"<<std::endl
+           <<"============================="<<std::endl;
+  int i{1};
+  for(auto particle{particles.begin()}; particle<particles.end(); ++particle)
+  {
+    std::cout<<"Particle "<<i<<" ("<<particle->get_name()<<"):"<<std::endl
+             <<"-----------------------------"<<std::endl;
+    particle->print_data();
+    std::cout<<"-----------------------------"<<std::endl;
+    i++;
+  }
+}
+
+// // Beginning of particle class
+// class particle
+// {
+// private:
+//   string particle_name;
+//   //...other data members (see slides on BB)
+//   // We need the four-vector, you can leave the particle mass (or remove it, we don't mark it)
 
 
-public:
-  // Constructors
-  // Here you need a default constructor, a parameterised constructor and a copy constructor
-  // The parameterised constructor needs to dynamically allocate the std::vector containing the four-vector elements
-  // The parameterised constructor also needs to check the validity of the energy component
-  // The copy constructor needs to make a deep copy of the std::vector holding the 4-momentum
+// public:
+//   // Constructors
+//   // Here you need a default constructor, a parameterised constructor and a copy constructor
+//   // The parameterised constructor needs to dynamically allocate the std::vector containing the four-vector elements
+//   // The parameterised constructor also needs to check the validity of the energy component
+//   // The copy constructor needs to make a deep copy of the std::vector holding the 4-momentum
 
-  // Destructor
-  // The destructor needs to free the memory allocated by the constructor
+//   // Destructor
+//   // The destructor needs to free the memory allocated by the constructor
 
-  // Assignment operator
-  // The assignment operator needs to avoid self-assignment using the *this pointer
+//   // Assignment operator
+//   // The assignment operator needs to avoid self-assignment using the *this pointer
 
-  // Move constructor
-  // The move constructor needs to correctly steal the memory from the object you're calling it on
+//   // Move constructor
+//   // The move constructor needs to correctly steal the memory from the object you're calling it on
   
-  // Move assignment operator
-  // The move assignment operator needs to correctly reassign the memory from the original object
+//   // Move assignment operator
+//   // The move assignment operator needs to correctly reassign the memory from the original object
   
-  // Getter functions (accessors) to individual elements of 4-momentum
-  // This should include function returning beta value 
+//   // Getter functions (accessors) to individual elements of 4-momentum
+//   // This should include function returning beta value 
 
-  // Setter functions, to change values of 4-momentum 
-  // Make sure you check input validity for the energy in the 4-momentum 
+//   // Setter functions, to change values of 4-momentum 
+//   // Make sure you check input validity for the energy in the 4-momentum 
 
-  // Function to print info about a particle 
-  // (not necessary or marked, but nice as you can extend the one you already have from Assignment 3)
-  void print_data();
+//   // Function to print info about a particle 
+//   // (not necessary or marked, but nice as you can extend the one you already have from Assignment 3)
+//   void print_data();
 
-};
+// };
 
 // Implementation of functions goes here
 
@@ -58,12 +76,25 @@ public:
 // Main program
 int main()
 {
+  // Constants
+  const double electron_rest_mass{0.51099895}; // MeV
+  const double muon_rest_mass{105.6583755}; // MeV
 
-  // Create the following particles: 
-  // two electrons, four muons, one antielectron, one antimuon 
-  // Use the parameterised constructor to do these
+  // Create a vector of particles:
+  // two electrons, four muons, one antielectron, one antimuon
+  std::vector<particle> particles;
 
-  // (optional but nice) Print out the data from all the particles (put them in a vector)
+  particles.emplace_back("electron", electron_rest_mass, 1, 613.1, 1.34, 0, 0);
+  particles.emplace_back("electron", electron_rest_mass, 1, 34.1, 0, 4.56, 0);
+  particles.emplace_back("muon", muon_rest_mass, 1, 81.6, 0, 0, 5.63);
+  particles.emplace_back("muon", muon_rest_mass, 1, 984.2, 234.1, 0, 0);
+  particles.emplace_back("muon", muon_rest_mass, 1, 489.21, 0, 23.4, 0);
+  particles.emplace_back("muon", muon_rest_mass, 1, 92.7, 0, 0, 451.2);
+  particles.emplace_back("electron", electron_rest_mass, -1, 712.1, 827.3, 0, 0);
+  particles.emplace_back("muon", muon_rest_mass, -1, 121.1, 0, 9.120, 0);
+
+  // Print out the data from all the particles
+  print_all_particle_info(particles);
 
   // Sum the four-momenta of the two electrons 
   // Do the dot product of the first two four-muons
