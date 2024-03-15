@@ -33,14 +33,14 @@ public:
   // .. Parameterised constructor
   particle(const string& type, const double& mass, const int& charge_quanta,
            const double& energy, const double& px, const double& py, const double& pz);
-  // .. copy constructor
+  // .. Copy constructor
   particle(const particle& particle_to_copy);
-  // .. move constructor
+  // .. Move constructor
   particle(particle&& other);
   // Assignment opeartors
-  // .. copy assignment operator
+  // .. Copy assignment operator
   particle& operator=(const particle& particle_to_move);
-  // .. move assignment operator
+  // .. Move assignment operator
   particle& operator=(particle&& particle_to_move);
   // Destructor
   ~particle();

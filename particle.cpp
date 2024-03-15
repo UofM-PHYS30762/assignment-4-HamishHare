@@ -190,6 +190,7 @@ void particle::print_four_momentum() const
 // .. particle with that of a given other particle
 particle particle::operator+(const particle &other_particle) const
 {
+  std::cout<<"Calling operator+"<<std::endl;
   particle summed_particle
   {
     particle_type, rest_mass, charge,
