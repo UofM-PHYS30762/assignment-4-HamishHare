@@ -61,13 +61,11 @@ void detector::validate_count(const size_t& count)
   }
 }
 
-// Constructors
-// .. Default constructor
-detector::detector() : detector_type{"tracker"}, status{false}, detection_count{0},
-                       electron_detection_count{0}, muon_detection_count{0}, total_particle_count{0} {}
-// .. Parameterised constructor
-detector::detector(string type, bool initial_status) : detector_type{type}, status{initial_status},
-                  detection_count{0}, electron_detection_count{0}, muon_detection_count{0}, total_particle_count{0}
+// Parameterised constructor
+detector::detector(string type, bool initial_status) : detector_type{type},
+                              status{initial_status}, detection_count{0}, 
+                              electron_detection_count{0}, muon_detection_count{0},
+                              total_particle_count{0}
 {
   // Validation
   // .. check that the detector type is valid

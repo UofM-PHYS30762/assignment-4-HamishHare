@@ -11,11 +11,12 @@ using std::string;
 class particle {
 private:
   const double speed_of_light = 2.99792458e8; // in m/s, speed of light in vacuum
-  string particle_type;
-  double rest_mass; // in Mev
-  int charge; // multiples of -e
-  double velocity;
-  double beta;
+
+  string particle_type{"electron"};
+  double rest_mass{0.51099895}; // in Mev
+  int charge{1}; // multiples of -e
+  double velocity{0};
+  double beta{velocity/speed_of_light};
 
   // Validation functions
   void validate_type(); // .. particle type
@@ -26,7 +27,7 @@ private:
 public:
   // Constructors
   // .. Default constructor
-  particle();
+  particle() = default;
   // .. Parameterised constructor
   particle(const string& type, const double& mass, const int& charge_quanta,
            const double& particle_velocity);

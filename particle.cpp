@@ -57,11 +57,7 @@ void particle::validate_velocity()
   }
 }
 
-// Constructors
-// .. Default constructor
-particle::particle() : particle_type{"electron"}, rest_mass{0.51099895},
-                       charge{1}, velocity{0}, beta{0} {}
-// .. Parameterised constructor
+// Parameterised constructor
 particle::particle(const string& type, const double& mass, const int& charge_quanta,
                    const double& particle_velocity) :
                    particle_type{type}, rest_mass{mass}, charge{charge_quanta},

@@ -11,12 +11,12 @@ using std::string;
 
 class detector {
 private:
-  string detector_type;
-  bool status;  // true <--> on, false <--> off
-  size_t detection_count;
-  size_t electron_detection_count;
-  size_t muon_detection_count;
-  size_t total_particle_count;
+  string detector_type{"tracker"};
+  bool status{false}; // true <--> on, false <--> off
+  size_t detection_count{0};
+  size_t electron_detection_count{0};
+  size_t muon_detection_count{0};
+  size_t total_particle_count{0};
 
   // Function to get on/off message depending on status
   string status_message() const;
@@ -32,7 +32,7 @@ private:
 public:
   // Constructors
   // .. Default constructor
-  detector();
+  detector() = default;
   // .. Parameterised constructor
   detector(string type, bool initial_status);
   // Destructor
