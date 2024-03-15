@@ -88,12 +88,30 @@ particle::particle(const string& type, const double& mass, const int& charge_qua
 particle::particle(const particle& particle_to_copy)
 {
   std::cout<<"Calling copy constructor"<<std::endl;
+  // Copy the data members from the other particle
   particle_type = particle_to_copy.particle_type;
   rest_mass = particle_to_copy.rest_mass;
   charge = particle_to_copy.charge;
   delete four_momentum_p; // delete vector from class definition
   four_momentum_p = new std::vector<double>{*(particle_to_copy.four_momentum_p)};
   validate_all();
+}
+
+// Assignment operator
+particle& particle::operator=(const particle& particle_to_copy)
+{
+  std::cout<<"Calling copy assignment operator"<<std::endl;
+  if(&particle_to_copy == this) return *this; // no self-assignment
+  
+  // Copy the data members from the other particle
+  particle_type = particle_to_copy.particle_type;
+  rest_mass = particle_to_copy.rest_mass;
+  charge = particle_to_copy.charge;
+  delete four_momentum_p; // delete previous four_momentum vector
+  four_momentum_p = new std::vector<double>{*(particle_to_copy.four_momentum_p)};
+  validate_all();
+
+  return *this;
 }
 
 // Destructor

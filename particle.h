@@ -35,6 +35,8 @@ public:
            const double& energy, const double& px, const double& py, const double& pz);
   // Copy constructor
   particle(const particle& particle_to_copy);
+  // Assignment operator
+  particle& operator=(const particle& other);
   // Destructor
   ~particle();
 

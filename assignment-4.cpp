@@ -99,15 +99,27 @@ int main()
   // Sum the four-momenta of the two electrons
   particle e1{"electron", electron_rest_mass, 1, 613.1, 1.34, 0, 6.1};
   particle e2{"electron", electron_rest_mass, 1, 34.1, 0, 4.56, 0};
-  particle summed_particle{e1+e2};
-  std::cout<<"Sum of momenta for first two electrons: ";
-  summed_particle.print_four_momentum();
+  // particle summed_particle{e1+e2};
+  // std::cout<<"Sum of momenta for first two electrons: ";
+  // summed_particle.print_four_momentum();
   // Do the dot product of the first two four-muons
-  particle m1{"muon", muon_rest_mass, 1, 1, 2, 3, 4};
-  particle m2{"muon", muon_rest_mass, 1, 2000, 200, 20, 2};
-  std::cout<<"Dot product of first two muons: "
-           <<m1.dot_product(m2)<<" (Mev/c)^2"<<std::endl;
+  // particle m1{"muon", muon_rest_mass, 1, 1, 2, 3, 4};
+  // particle m2{"muon", muon_rest_mass, 1, 2000, 200, 20, 2};
+  // std::cout<<"Dot product of first two muons: "
+  //          <<m1.dot_product(m2)<<" (Mev/c)^2"<<std::endl;
   // Assignment operator of an electron to a new electron
+  std::cout<<std::endl<<"e3:"<<std::endl;
+  particle e3 = e1;
+  e3.print_data();
+  e1.set_type("muon");
+  e3.print_data();
+
+  std::cout<<std::endl<<"e4:"<<std::endl;
+  particle e4;
+  e4 = e2;
+  e4.print_data();
+  e2.set_charge(-1);
+  e4.print_data();
   // Copy constructor of the first muon to a new muon
   // Move the antielectron into another antielectron using the move constructor 
   // Assign the antimuon to another antimuon using the move assignment
