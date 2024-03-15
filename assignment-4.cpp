@@ -1,79 +1,116 @@
 // PHYS 30762 Programming in C++
 // Assignment 4
 // Practice special functions and operators in C++ classes
-// Note that the hints in the skeleton are given to help you
-// in case of doubt, the official guidance/marking scheme is on the slides on BB 
+// Hamish Hare
 
-#include<iostream>
-#include<string>
-#include<vector>
-#include<cmath>
+#include <iostream>
+#include <vector>
+#include "particle.h"
+#include "detector.h"
 
-using std::string;
-
-// Beginning of particle class
-class particle
+// Function to run a vector of particles through a detector
+void pass_particles_through_detector(detector& current_detector,
+                                     std::vector<particle>& particles)
 {
-private:
-  string particle_name;
-  //...other data members (see slides on BB)
-  // We need the four-vector, you can leave the particle mass (or remove it, we don't mark it)
+  // .. turn detector on
+  current_detector.turn_on();
+  // .. pass particles through it
+  for(auto particle{particles.begin()}; particle<particles.end(); ++particle)
+  {
+    current_detector.detect_particle(*particle);
+  }
+  // .. turn detector off
+  current_detector.turn_off();
+}
 
-
-public:
-  // Constructors
-  // Here you need a default constructor, a parameterised constructor and a copy constructor
-  // The parameterised constructor needs to dynamically allocate the std::vector containing the four-vector elements
-  // The parameterised constructor also needs to check the validity of the energy component
-  // The copy constructor needs to make a deep copy of the std::vector holding the 4-momentum
-
-  // Destructor
-  // The destructor needs to free the memory allocated by the constructor
-
-  // Assignment operator
-  // The assignment operator needs to avoid self-assignment using the *this pointer
-
-  // Move constructor
-  // The move constructor needs to correctly steal the memory from the object you're calling it on
-  
-  // Move assignment operator
-  // The move assignment operator needs to correctly reassign the memory from the original object
-  
-  // Getter functions (accessors) to individual elements of 4-momentum
-  // This should include function returning beta value 
-
-  // Setter functions, to change values of 4-momentum 
-  // Make sure you check input validity for the energy in the 4-momentum 
-
-  // Function to print info about a particle 
-  // (not necessary or marked, but nice as you can extend the one you already have from Assignment 3)
-  void print_data();
-
-};
-
-// Implementation of functions goes here
-
-// End of particle class and associated member functions
-
-// Main program
-int main()
+// Function to print out all the particle information
+void print_all_particle_info(std::vector<particle>& particles)
 {
+  std::cout<<"============================="<<std::endl
+           <<"          PARTICLES"<<std::endl
+           <<"============================="<<std::endl;
+  int i{1};
+  for(auto particle{particles.begin()}; particle<particles.end(); ++particle)
+  {
+    std::cout<<"Particle "<<i<<" ("<<(*particle).get_name()<<"):"<<std::endl
+             <<"-----------------------------"<<std::endl;
+    (*particle).print_data();
+    std::cout<<"-----------------------------"<<std::endl;
+    i++;
+  }
+}
 
-  // Create the following particles: 
-  // two electrons, four muons, one antielectron, one antimuon 
-  // Use the parameterised constructor to do these
+// Function to run given particles through given detectors
+void run_particles_through_detectors(std::vector<detector>& detectors,
+                                     std::vector<particle>& particles)
+{
+  std::cout<<std::endl
+           <<"============================="<<std::endl
+           <<"          DETECTION"<<std::endl
+           <<"============================="<<std::endl;
+  for(auto detector{detectors.begin()}; detector<detectors.end(); ++detector)
+  {
+    // .. print which detector is currently in use
+    std::cout<<"For the "<<(*detector).get_detector_type()<<":"<<std::endl;
+    std::cout<<"-----------------------------"<<std::endl;
+    // .. pass the particles through it
+    pass_particles_through_detector((*detector), particles);
+    std::cout<<"-----------------------------"<<std::endl;
+  }
+}
 
-  // (optional but nice) Print out the data from all the particles (put them in a vector)
+// Function to provide a summary of the detector results after
+// particles have been run through them
+void print_detector_results(std::vector<detector>& detectors)
+{
+  std::cout<<std::endl
+           <<"============================="<<std::endl
+           <<"           SUMMARY"<<std::endl
+           <<"============================="<<std::endl;
+  // .. loop over each detector
+  for(auto detector{detectors.begin()}; detector<detectors.end(); ++detector)
+  {
+    std::cout<<"For the "<<(*detector).get_detector_type()<<":"<<std::endl
+             <<"-----------------------------"<<std::endl;
+    (*detector).print_data();
+    std::cout<<"-----------------------------"<<std::endl;
+  }
+}
 
-  // Sum the four-momenta of the two electrons 
-  // Do the dot product of the first two four-muons
-  // Assignment operator of an electron to a new electron
-  // Copy constructor of the first muon to a new muon
-  // Move the antielectron into another antielectron using the move constructor 
-  // Assign the antimuon to another antimuon using the move assignment
+int main() {
+  // Constants
+  const double electron_rest_mass{0.51099895}; // MeV
+  const double muon_rest_mass{105.6583755}; // MeV
 
-  // (optional but nice) Here or at the end of each step, print the new particle info
-  // to convince yourself that you have used all special functions and operations correctly
+  // Create a vector of particles:
+  // two electrons, four muons, one antielectron, one antimuon
+  std::vector<particle> particles;
+
+  particles.emplace_back("electron", electron_rest_mass, 1, 41.21);
+  particles.emplace_back("electron", electron_rest_mass, 1, -2.01e8);
+  particles.emplace_back("muon", muon_rest_mass, 1, 34324.12);
+  particles.emplace_back("muon", muon_rest_mass, 1, -612.5421);
+  particles.emplace_back("muon", muon_rest_mass, 1, 9.6233e3);
+  particles.emplace_back("muon", muon_rest_mass, 1, 0.56);
+  particles.emplace_back("electron", electron_rest_mass, -1, 1.74e7);
+  particles.emplace_back("muon", muon_rest_mass, -1, 0.0);
+  
+  // Print out the data from all the particles
+  print_all_particle_info(particles);
+
+  // Create a vector of detectors:
+  // a tracker, a calorimeter, a muon chamber
+  std::vector<detector> detectors;
+
+  detectors.emplace_back("tracker", false);
+  detectors.emplace_back("calorimeter", false);
+  detectors.emplace_back("muon chamber", false);
+
+  // Pass the list of particles into each detector
+  run_particles_through_detectors(detectors, particles);
+
+  // Print a summary of how many particles were detected
+  print_detector_results(detectors);
 
   return 0;
 }
