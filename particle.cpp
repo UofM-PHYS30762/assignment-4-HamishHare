@@ -90,11 +90,12 @@ void particle::set_velocity(const double& particle_velocity) {
 }
 
 // Function to print info about a particle
-void particle::print_data() const {
+void particle::print_data() const
+{
   std::cout
-  << " -- Type: " << particle_type << std::endl
-  << " -- Rest Mass: " << rest_mass << " MeV" << std::endl
-  << " -- Charge: " << -charge << " e" << std::endl
-  << " -- Velocity: " << velocity << " m/s" << std::endl
-  << " -- Beta: " << beta << std::endl;
+  <<" -- Type: "<<particle_type<<std::endl
+  <<" -- Rest Mass: "<<rest_mass<<" MeV"<<std::endl
+  <<" -- Charge: "<<-charge <<" e"<<std::endl
+  <<" -- Velocity: "<<velocity<<" m/s"<<std::endl
+  <<" -- Beta: "<<beta<<std::endl;
 }
