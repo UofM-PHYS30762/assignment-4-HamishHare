@@ -100,11 +100,8 @@ int main()
   particle e1{"electron", electron_rest_mass, 1, 613.1, 1.34, 0, 6.1};
   particle e2{"electron", electron_rest_mass, 1, 34.1, 0, 4.56, 0};
   particle summed_particle{e1+e2};
-  std::cout<<"Sum of momenta for first two electrons: ("
-           <<summed_particle.get_energy()<<", "
-           <<summed_particle.get_px()<<", "
-           <<summed_particle.get_py()<<", "
-           <<summed_particle.get_pz()<<") MeV/c"<<std::endl;;
+  std::cout<<"Sum of momenta for first two electrons: ";
+  summed_particle.print_four_momentum();
   // Do the dot product of the first two four-muons
   particle m1{"muon", muon_rest_mass, 1, 1, 2, 3, 4};
   particle m2{"muon", muon_rest_mass, 1, 2000, 200, 20, 2};

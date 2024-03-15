@@ -111,7 +111,8 @@ string particle::get_name() const
   else return particle_type;
 }
 
-// Function to print info about a particle
+// Functions to print info about a particle
+// .. full information
 void particle::print_data() const
 {
   std::cout
@@ -123,22 +124,17 @@ void particle::print_data() const
                           <<(*four_momentum_p)[2]<<", "
                           <<(*four_momentum_p)[3]<<") MeV/c"<<std::endl;
 }
+// .. four momenta
+void particle::print_four_momentum() const
+{
+  std::cout<<"("
+           <<(*four_momentum_p)[0]<<", "
+           <<(*four_momentum_p)[1]<<", "
+           <<(*four_momentum_p)[2]<<", "
+           <<(*four_momentum_p)[3]<<") MeV/c"<<std::endl;
+}
 
 // Addition operator overload
-// .. returns a vector with the summed four momenta of this particle
-// .. with that of a given other particle
-// .. does not overwrite any values
-// std::vector<double> particle::operator+(const particle &other_particle) const
-// {
-//   std::vector<double> sum
-//   {
-//     (*four_momentum_p)[0]+other_particle.get_energy(),
-//     (*four_momentum_p)[1]+other_particle.get_px(),
-//     (*four_momentum_p)[2]+other_particle.get_py(),
-//     (*four_momentum_p)[3]+other_particle.get_pz()
-//   };
-//   return sum;
-// }
 // .. returns a new particle with the summed four momenta of this
 // .. particle with that of a given other particle
 particle particle::operator+(const particle &other_particle) const

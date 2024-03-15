@@ -57,8 +57,11 @@ public:
   void set_py(const double& py){(*four_momentum_p)[2]=py;}
   void set_pz(const double& pz){(*four_momentum_p)[3]=pz;}
 
-  // Function to print info about a particle
+  // Functions to print info about a particle
+  // .. full information
   void print_data() const;
+  // .. just four momenta
+  void print_four_momentum() const;
 
   // Addition operator overload
 // .. returns a new particle with the summed four momenta of this
